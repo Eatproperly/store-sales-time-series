@@ -6,8 +6,8 @@ import pandas as pd
 import nbformat
 
 class Panel:
- def __init__(self, root):
-  self.root=Path(root); self.out=self.root/'outputs/advanced';self.out.mkdir(parents=True,exist_ok=True)
+ def __init__(self, root, out_dir=None):
+  self.root=Path(root); self.out=Path(out_dir) if out_dir else self.root/'outputs/advanced';self.out.mkdir(parents=True,exist_ok=True)
   # Reuse the frozen, actually executed baseline's preprocessing and estimator.
   notebook=nbformat.read(self.root/'Store_Sales.ipynb',as_version=4)
   prev=Path.cwd(); os.environ['STORE_SALES_DATA_DIR']=str(self.root/'data');os.chdir(self.out)
@@ -16,7 +16,7 @@ class Panel:
    with contextlib.redirect_stdout(io.StringIO()):
     for c in notebook.cells:
      if c.cell_type!='code':continue
-     if c.source.startswith("names=['SeasonalNaive'"):break
+     if not c.source.startswith(('import os, sys','files=[','matched=holidays','panel=train.pivot','DEV=[')):continue
      exec(compile(c.source,'frozen_baseline','exec'),g)
   finally:os.chdir(prev)
   self.g=g;self.dates=g['panel'].index;self.cols=g['panel'].columns;self.n=len(self.cols)
@@ -66,16 +66,20 @@ class Panel:
   month=self.dates[days.ravel()].month.to_numpy().reshape(days.shape)
   dom=self.dates[days.ravel()].day.to_numpy().reshape(days.shape)
   fut=np.stack([np.log1p(self.promo[days,sids[:,None]]),np.sin(2*np.pi*dow/7),np.cos(2*np.pi*dow/7),np.sin(2*np.pi*month/12),np.cos(2*np.pi*month/12),dom/31,((dom==15)|self.dates[days.ravel()].is_month_end.reshape(days.shape)).astype(float),year,self.mask[np.maximum(annual,0),sids[:,None]]*validannual,anchor,*[self.holiday[days,sids[:,None],j] for j in [0,2]]],axis=-1).astype('float32')
+  stats=np.stack([mu[:,0,0],sd[:,0,0]],axis=-1)
+  fut=np.concatenate([fut,np.broadcast_to(stats[:,None,:],(len(sids),16,2))],axis=-1).astype('float32')
   return past.astype('float32'),fut,self.static[sids],anchor
  def tree_rows(self,origins,exog=False):
   chunks=[];ys=[];masks=[]
   for t in origins:
-   ss=np.arange(self.n);_,future,stat,anchor=self.inputs(np.full(self.n,t),ss)
+   ss=np.arange(self.n);_,future,stat,anchor=self.inputs(np.full(self.n,t),ss);future=future[:,:,:12]
    vals=[np.broadcast_to(stat[:,i,None],(self.n,16)) for i in [0,1,3,4]]
-   for lag in [0,1,6,13,27,55]: vals.append(np.broadcast_to(self.z[t-lag,:,None],(self.n,16)))
+   for lag in [0,1,6,13,27,55]: vals.append(np.broadcast_to(np.where(self.mask[t-lag],self.z[t-lag],np.nan)[:,None],(self.n,16)))
    for w in [7,14,28,56]:
-    a=self.z[t-w+1:t+1];vals += [np.broadcast_to(a.mean(0)[:,None],(self.n,16)),np.broadcast_to(a.std(0)[:,None],(self.n,16))]
-   vals += [np.broadcast_to((self.z[t-27:t+1]==0).mean(0)[:,None],(self.n,16)),np.broadcast_to(self.history[t,:,2,None],(self.n,16)),np.broadcast_to(self.history[t,:,3,None],(self.n,16)),np.tile(np.arange(1,17),(self.n,1)),*np.moveaxis(future,-1,0)]
+    a=np.where(self.mask[t-w+1:t+1],self.z[t-w+1:t+1],np.nan);vals += [np.broadcast_to(np.nanmean(a,axis=0)[:,None],(self.n,16)),np.broadcast_to(np.nanstd(a,axis=0)[:,None],(self.n,16))]
+   zero_ratio=((self.z[t-27:t+1]==0)&self.mask[t-27:t+1]).sum(0)/np.maximum(self.mask[t-27:t+1].sum(0),1)
+   vals += [np.broadcast_to(zero_ratio[:,None],(self.n,16)),np.broadcast_to(self.history[t,:,2,None],(self.n,16)),np.broadcast_to(self.history[t,:,3,None],(self.n,16)),np.tile(np.arange(1,17),(self.n,1)),*np.moveaxis(future,-1,0)]
+   vals.append(np.broadcast_to(self.mask[t,:,None],(self.n,16)))
    if exog: vals += [np.broadcast_to(self.history[t,:,i,None],(self.n,16)) for i in [4,5,7]]
    chunks.append(np.stack(vals,axis=-1).reshape(-1,len(vals)).astype('float32'))
    ys.append(self.z[t+1:t+17].T.ravel());masks.append(self.mask[t+1:t+17].T.ravel())

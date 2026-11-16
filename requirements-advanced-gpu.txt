@@ -1,0 +1,11 @@
+# Keep Kaggle's preinstalled CUDA-compatible torch. Verify torch.cuda.is_available().
+pandas>=2.2
+numpy>=1.26
+scikit-learn>=1.5
+lightgbm>=4.5
+matplotlib>=3.8
+seaborn>=0.13
+nbformat>=5.10
+nbconvert>=7.16
+nbclient>=0.10
+PyYAML>=6.0

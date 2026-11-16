@@ -9,9 +9,29 @@ from lightgbm import LGBMRegressor
 from store_sales.data import Panel
 from store_sales.training import outer_fit,predict,train
 from store_sales.evaluation import score,write_prediction
-p=Panel(ROOT);out=p.out
+import argparse,yaml
+parser=argparse.ArgumentParser();parser.add_argument('--config',default=str(ROOT/'configs/advanced.yaml'));parser.add_argument('--output-dir',default=str(ROOT/'outputs/advanced'));args=parser.parse_args()
+cfg=yaml.safe_load(Path(args.config).read_text())
+for field,expected in [('horizon',16),('history_length',112),('seed',42),('cpu_threads',2)]:
+ if cfg.get(field,expected)!=expected:raise ValueError(f'{field} is fixed by this protocol; change the implementation and use a new experiment directory')
+if cfg.get('dev_windows',['2016-08-16','2017-04-16','2017-06-15','2017-07-15'])!=['2016-08-16','2017-04-16','2017-06-15','2017-07-15']:raise ValueError('Outer windows are frozen for comparable model selection')
+if cfg.get('require_cuda',False) and not torch.cuda.is_available():raise RuntimeError('This protocol requires a CUDA GPU. Enable GPU before launching; CPU fallback is not permitted for this config.')
+p=Panel(ROOT,Path(args.output_dir).resolve());out=p.out
+p.batch_size=int(cfg.get('batch_size',256));p.inner_mode=cfg.get('inner_mode','budget')
+p.windows_per_epoch=int(cfg.get('windows_per_epoch',4096));p.base_windows_per_epoch=p.windows_per_epoch
+WIDTH=int(cfg.get('neural_width',32));EPOCHS=int(cfg.get('max_epochs',8))
 rows=pd.read_csv(out/'metrics.csv').to_dict('records') if (out/'metrics.csv').exists() else [];dev=['2016-08-16','2017-04-16','2017-06-15','2017-07-15']
-config={'device':'cpu','width':32,'batch_size':256,'windows_per_epoch':4096,'epoch_candidates':[2,8],'max_epochs':8,'history':112,'horizon':16,'seed':42,'gpu_available':torch.cuda.is_available(),'torch_version':torch.__version__,'baseline_commit':'937fe5840828e5d68443b30637320db9dbc9456b','deviation':'CPU measured adaptation: width32, epoch sampling4096, inner epoch comparison2/8 rather than GPU patience50. No claim of full GPU training.'}
+config={'device':'cuda' if torch.cuda.is_available() else 'cpu','width':WIDTH,'batch_size':p.batch_size,'inner_mode':p.inner_mode,'windows_per_epoch':p.windows_per_epoch,'epoch_candidates':[2,EPOCHS],'max_epochs':EPOCHS,'history':112,'horizon':16,'seed':42,'extended_cpu_protocol':{'enabled':not torch.cuda.is_available(),'kind':'mixer3_long / mixer3_scale','max_epochs':16,'windows_per_epoch':8192},'gpu_available':torch.cuda.is_available(),'torch_version':torch.__version__,'baseline_commit':'937fe5840828e5d68443b30637320db9dbc9456b','deviation':'Bounded sampled-epoch training; inner epoch budget comparison rather than patience-based early stopping. See width, sampler and epoch fields.'}
+if (out/'manifest.json').exists():
+ prior_manifest=json.loads((out/'manifest.json').read_text())
+ for name,digest in prior_manifest['source_sha256'].items():
+  if hashlib.sha256((ROOT/name).read_bytes()).hexdigest()!=digest:raise ValueError('Source changed: use a new --output-dir')
+ for name,digest in prior_manifest['data_sha256'].items():
+  if hashlib.sha256((ROOT/'data'/name).read_bytes()).hexdigest()!=digest:raise ValueError('Data changed: use a new --output-dir')
+if (out/'execution_config.json').exists():
+ prior=json.loads((out/'execution_config.json').read_text())
+ for k in ['width','windows_per_epoch','max_epochs','device','batch_size','inner_mode']:
+  if prior[k]!=config[k]:raise ValueError('Configuration changed: use a new --output-dir to avoid mixing experiments')
 (out/'execution_config.json').write_text(json.dumps(config,indent=2))
 # Real-data invariance and split tests, including valid future-known changes.
 t=p.index('2017-07-14');ss=np.arange(8);orig=np.full(8,t)
@@ -28,7 +48,8 @@ assert p.mask[p.index('2017-07-14')].all()
 
 def record(name,date,z,detail=None):
  t=p.index(date)-1;metrics=write_prediction(p,t,z,name)
- row={'model':name,'date':date,**metrics};rows.append(row)
+ row={'model':name,'date':date,**metrics}
+ rows[:]=[r for r in rows if not(r['model']==name and r['date']==date)];rows.append(row)
  pd.DataFrame(rows).to_csv(out/'metrics.csv',index=False)
  if detail:(out/f'training_{name}_{date}.json').write_text(json.dumps(detail,indent=2))
  print('RESULT',row,flush=True)
@@ -57,31 +78,44 @@ for date in dev[-2:]:
  if not any(r['model']=='B2' and r['date']==date for r in rows):tree_fit(date,'B2',exog=True)
 recent=pd.DataFrame(rows);recent=recent.loc[recent.date.isin(dev[-2:]) & recent.model.isin(['B1','B1_2016','B2'])]
 tree_name=recent.groupby('model').RMSLE.apply(lambda x:float(np.sqrt(np.mean(x*x)))).idxmin()
-tree_start='2016-01-01' if tree_name=='B1_2016' else '2015-01-01';tree_exog=tree_name=='B2';p.train_start=tree_start
+tree_start='2016-01-01' if tree_name=='B1_2016' else '2015-01-01';tree_exog=tree_name=='B2';p.train_start='2015-01-01'
 for date in dev[:2]:
  if not any(r['model']==tree_name and r['date']==date for r in rows):tree_fit(date,tree_name,tree_start,tree_exog)
 # Screen all six network designs on recent folds using an internal validation window.
 for kind in ['mlp','mixer2','mixer3','no_pair','no_promo','no_anchor']:
  for date in dev[-2:]:
   if any(r['model']==kind and r['date']==date for r in rows):continue
-  t=p.index(date)-1;model,detail=outer_fit(p,t,kind)
+  t=p.index(date)-1;model,detail=outer_fit(p,t,kind,max_epochs=EPOCHS,width=WIDTH)
   record(kind,date,predict(model,p,t),detail);del model;gc.collect()
+# Longer 3-block run was specified before viewing the advanced fixed-window result.
+if not torch.cuda.is_available():
+ for date in dev[-2:]:
+  if any(r['model']=='mixer3_long' and r['date']==date for r in rows):continue
+  t=p.index(date)-1;model,detail=outer_fit(p,t,'mixer3_long',width=WIDTH)
+  record('mixer3_long',date,predict(model,p,t),detail);del model;gc.collect()
+# A matched-budget variant passes context mean/scale to the decoder; other designs ignore these extra inputs.
+for date in dev[-2:]:
+ if any(r['model']=='mixer3_scale' and r['date']==date for r in rows):continue
+ t=p.index(date)-1;model,detail=outer_fit(p,t,'mixer3_scale',max_epochs=EPOCHS,width=WIDTH)
+ record('mixer3_scale',date,predict(model,p,t),detail);del model;gc.collect()
 # Select by pooled squared error of the two complete screen windows.
-screen=pd.DataFrame(rows);neural=['mlp','mixer2','mixer3','no_pair','no_promo','no_anchor']
+screen=pd.DataFrame(rows);neural=['mlp','mixer2','mixer3','no_pair','no_promo','no_anchor']+['mixer3_scale']+(['mixer3_long'] if not torch.cuda.is_available() else [])
 rank=screen.loc[screen.model.isin(neural)].groupby('model').RMSLE.apply(lambda x:float(np.sqrt((x*x).mean()))).sort_values()
 (out/'neural_screen.json').write_text(rank.to_json())
 best=rank.index[0];finalists=list(rank.index[:2])
 for kind in finalists:
  for date in dev[:2]:
   if any(r['model']==kind and r['date']==date for r in rows):continue
-  t=p.index(date)-1;model,detail=outer_fit(p,t,kind);record(kind,date,predict(model,p,t),detail);del model;gc.collect()
+  t=p.index(date)-1;model,detail=outer_fit(p,t,kind,max_epochs=EPOCHS,width=WIDTH);record(kind,date,predict(model,p,t),detail);del model;gc.collect()
 complete=pd.DataFrame(rows);complete=complete.loc[complete.model.isin(finalists)&complete.date.isin(dev)]
 best=complete.groupby('model').RMSLE.apply(lambda x:float(np.sqrt(np.mean(x*x)))).idxmin()
 # Repeat the winning network on the two recent folds; no unsupported variance claim.
 for seed in [2026,3407]:
  for date in dev[-2:]:
-  t=p.index(date)-1;model,detail=outer_fit(p,t,best,seed=seed)
+  if any(r['model']==f'{best}_seed{seed}' and r['date']==date for r in rows):continue
+  t=p.index(date)-1;model,detail=outer_fit(p,t,best,seed=seed,max_epochs=EPOCHS,width=WIDTH)
   record(f'{best}_seed{seed}',date,predict(model,p,t),detail);del model;gc.collect()
+def read_oof(path):return pd.read_csv(path if path.exists() else Path(str(path)+'.gz'))
 # Choose among complete-four-fold tree and neural predictions and a coarse global blend.
 allmetrics=pd.DataFrame(rows);fullnames=['B0',tree_name]+finalists
 leader=[]
@@ -92,7 +126,7 @@ for w in [0,.25,.5,.75,1.]:
  scores=[]
  for date in dev:
   suffix=str((pd.Timestamp(date)-pd.Timedelta(days=1)).date())
-  tr=pd.read_csv(out/f'oof_{tree_name}_{suffix}.csv');nn=pd.read_csv(out/f'oof_{best}_{suffix}.csv')
+  tr=read_oof(out/f'oof_{tree_name}_{suffix}.csv');nn=read_oof(out/f'oof_{best}_{suffix}.csv')
   assert tr[['origin','store_nbr','family','h','target_date']].equals(nn[['origin','store_nbr','family','h','target_date']])
   zz=w*tr.pred_log+(1-w)*nn.pred_log
   scores.append(score(tr.actual_log,zz,tr.observed)['RMSLE'])
@@ -106,12 +140,12 @@ selection={'winner':winner,'weight_tree':weight,'network_kind':network_kind,'dev
 # Evaluate the frozen selection on R; never feed this result back into selection.
 date='2017-07-31';t=p.index(date)-1
 mt=tree_fit(date,tree_name,tree_start,tree_exog);vx,_,_=p.tree_rows([t],tree_exog);zt=mt.predict(vx).reshape(p.n,16)
-mn,detail=outer_fit(p,t,network_kind);zn=predict(mn,p,t);record(network_kind,date,zn,detail)
-if winner=='B0': zf=pd.read_csv(out/f'oof_B0_{p.dates[t].date()}.csv').pred_log.to_numpy().reshape(p.n,16)
+mn,detail=outer_fit(p,t,network_kind,max_epochs=EPOCHS,width=WIDTH);zn=predict(mn,p,t);record(network_kind,date,zn,detail)
+if winner=='B0': zf=read_oof(out/f'oof_B0_{p.dates[t].date()}.csv').pred_log.to_numpy().reshape(p.n,16)
 else:zf=weight*np.maximum(zt,0)+(1-weight)*np.maximum(zn,0)
 record('FINAL',date,zf,{'locked_selection':selection})
 # Final training at T=Aug15; epochs from inner histories only.
-t=p.index('2017-08-15');model,detail=outer_fit(p,t,network_kind)
+t=p.index('2017-08-15');model,detail=outer_fit(p,t,network_kind,max_epochs=EPOCHS,width=WIDTH)
 zn=predict(model,p,t);xx,yy,mm=p.tree_rows(p.origins(p.dates[t],tree_start),tree_exog);mt.fit(xx[mm],yy[mm]);del xx,yy,mm;gc.collect()
 vx,_,_=p.tree_rows([t],tree_exog);zt=mt.predict(vx).reshape(p.n,16)
 if winner=='B0':

@@ -1,0 +1,7 @@
+# Actual full-budget protocol: refuses to run without CUDA.
+require_cuda: true
+neural_width: 64
+max_epochs: 50
+inner_mode: patience
+batch_size: 512
+windows_per_epoch: 0
