@@ -3,3 +3,5 @@ data/*.csv
 __pycache__/
 .venv/
 *.pyc
+outputs/advanced/artifacts/
+outputs/advanced/checkpoints/

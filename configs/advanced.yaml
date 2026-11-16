@@ -1,0 +1,12 @@
+# CPU adaptation; full history and all specified outer windows retained.
+history_length: 112
+horizon: 16
+seed: 42
+neural_width: 32
+cpu_threads: 2
+max_epochs: 8
+inner_epoch_candidates: [2, 8]
+train_start: '2015-01-01'
+dev_windows: ['2016-08-16', '2017-04-16', '2017-06-15', '2017-07-15']
+regression_window: '2017-07-31'
+fusion_weights: [0, 0.25, 0.5, 0.75, 1]
