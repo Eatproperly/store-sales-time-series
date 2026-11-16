@@ -1,0 +1,8 @@
+文件,行数,列数,空值数
+train.csv,3000888,6,0
+test.csv,28512,5,0
+stores.csv,54,5,0
+holidays_events.csv,350,6,0
+oil.csv,1218,2,43
+transactions.csv,83488,3,0
+sample_submission.csv,28512,2,0

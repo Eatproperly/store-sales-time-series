@@ -38,3 +38,13 @@ python scripts/verify_export.py
 也可安装 notebook，在仓库目录启动 Jupyter，打开 Store_Sales.ipynb，重启内核并运行所有单元格。build_notebook.py 会重新生成 Notebook，复现已有报告时可直接从 execute_report.py 开始。不同机器的耗时及小数位可能不同。
 
 scripts/verify_export.py 独立复算保留窗口误差、核对真实标签与原始数据、检查提交 ID 与数值、导出 HTML 并打包。原始数据下载页面：[Kaggle](https://www.kaggle.com/competitions/store-sales-time-series-forecasting/data)。
+
+## 本次实际运行结果
+
+最终模型：**LightGBM_tuned_3**。最后保留窗口：
+
+| RMSLE | MAE | RMSE | R² |
+|---:|---:|---:|---:|
+| 0.42611 | 76.180 | 267.466 | 0.9541 |
+
+全部 29 个代码单元格执行成功；HTML 含 8 组嵌入图表。28,512 行提交的 ID 顺序、唯一性、有限值和非负值均已检查。保留窗口标签与原始数据逐行对齐，RMSLE 已独立复算。Kaggle 线上评分尚未提交。

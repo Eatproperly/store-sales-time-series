@@ -1,0 +1,13 @@
+{
+  "selected_model": "LightGBM_tuned_3",
+  "holdout_metrics": {
+    "RMSLE": 0.42610837342755414,
+    "MAE": 76.17997677303042,
+    "RMSE": 267.46575373716627,
+    "R2": 0.9540959624319865
+  },
+  "submission_rows": 28512,
+  "final_training_rows": 1054944,
+  "final_seconds": 19.309010793000084,
+  "kaggle_public_score": null
+}

@@ -1,0 +1,10 @@
+{
+  "notebook_code_cells": 29,
+  "notebook_error_outputs": 0,
+  "embedded_plot_images": 8,
+  "html_tables": 31,
+  "submission_rows": 28512,
+  "independently_recomputed_holdout_rmsle": 0.42610837342755414,
+  "holdout_labels_match_original": true,
+  "submission_id_order_matches_template": true
+}

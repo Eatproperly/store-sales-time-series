@@ -1,0 +1,11 @@
+{
+  "selected_model": "LightGBM_tuned_3",
+  "parameters": {
+    "n_estimators": 350,
+    "learning_rate": 0.05,
+    "num_leaves": 63,
+    "min_child_samples": 80
+  },
+  "train_start": "2016-01-01",
+  "development_rmsle": 0.3914388527217838
+}
