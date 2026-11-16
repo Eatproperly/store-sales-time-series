@@ -5,3 +5,7 @@ __pycache__/
 *.pyc
 outputs/advanced/artifacts/
 outputs/advanced/checkpoints/
+outputs/advanced/tree_repaired/
+outputs/advanced/scale_trial/
+outputs/advanced/tree_capacity/
+outputs/advanced/scale_seeds/
