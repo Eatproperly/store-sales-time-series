@@ -42,7 +42,8 @@ def read_oof(f):
 
 # Recompute each saved score; verify labels by joining against the original data.
 actual = pd.read_csv(
-    ROOT / "data/train.csv", usecols=["date", "store_nbr", "family", "sales"]
+    ROOT / "data/train.csv",
+    usecols=["date", "store_nbr", "family", "sales", "onpromotion"],
 )
 checks = []
 for r in metrics.itertuples(index=False):
@@ -83,6 +84,73 @@ for kind in ["final", "tree", "network"]:
         },
         indent=2,
     )
+)
+# Diagnostics use frozen OOF predictions; they do not change model selection.
+group_rows = []
+window_rows = []
+for date in dev + ["2017-07-31"]:
+    suffix = str((pd.Timestamp(date) - pd.Timedelta(days=1)).date())
+    candidate = "FINAL" if date == "2017-07-31" else sel["tree_model"]
+    for name in ["B0", candidate]:
+        d = read_oof(OUT / f"oof_{name}_{suffix}.csv")
+        d = d.merge(
+            actual.loc[
+                actual.date.between(
+                    date, str((pd.Timestamp(date) + pd.Timedelta(days=15)).date())
+                )
+            ],
+            left_on=["target_date", "store_nbr", "family"],
+            right_on=["date", "store_nbr", "family"],
+            validate="one_to_one",
+        )
+        d["squared_log_error"] = (np.log1p(d.sales) - d.pred_log) ** 2
+        d["zero_sales"] = np.where(d.sales.eq(0), "zero", "positive")
+        d["promotion"] = np.where(d.onpromotion.gt(0), "promotion", "no_promotion")
+        window_rows.append(
+            {
+                "date": date,
+                "model": name,
+                "RMSLE": float(np.sqrt(d.squared_log_error.mean())),
+            }
+        )
+        for group in ["store_nbr", "family", "zero_sales", "promotion", "h"]:
+            for value, rows in d.groupby(group):
+                group_rows.append(
+                    {
+                        "date": date,
+                        "model": name,
+                        "group": group,
+                        "value": str(value),
+                        "count": len(rows),
+                        "RMSLE": float(np.sqrt(rows.squared_log_error.mean())),
+                    }
+                )
+pd.DataFrame(group_rows).to_csv(OUT / "group_diagnostics.csv", index=False)
+pd.DataFrame(window_rows).to_csv(OUT / "window_diagnostics.csv", index=False)
+seed_ensemble_rows = []
+key = ["origin", "store_nbr", "family", "h", "target_date"]
+for date in dev[-2:]:
+    suffix = str((pd.Timestamp(date) - pd.Timedelta(days=1)).date())
+    frames = [
+        read_oof(OUT / f"oof_{sel['network_kind']}{tag}_{suffix}.csv").set_index(key)
+        for tag in ["", "_seed2026", "_seed3407"]
+    ]
+    reference = frames[0]
+    assert all(reference.index.equals(f.index) for f in frames)
+    prediction = np.mean([f.pred_log.to_numpy() for f in frames], axis=0)
+    seed_ensemble_rows.append(
+        {
+            "date": date,
+            "single_seed_RMSLE": float(
+                np.sqrt(np.mean((reference.actual_log - reference.pred_log) ** 2))
+            ),
+            "three_seed_mean_RMSLE": float(
+                np.sqrt(np.mean((reference.actual_log - prediction) ** 2))
+            ),
+        }
+    )
+pd.DataFrame(seed_ensemble_rows).to_csv(
+    OUT / "seed_ensemble_diagnostics.csv", index=False
 )
 manifest = {
     "source_sha256": {},
@@ -209,7 +277,7 @@ ax.set(xlabel='CPU sampled epoch',ylabel='Training log MSE',title='Refit trainin
 display(pd.DataFrame(complexity))
 """)
 md("""## 5. 多种子检验与模型融合
-最终神经候选在两个近期窗口用42、2026、3407三个种子复验。权重为1的融合端点等同纯树，不能声称神经网络贡献了融合增益。仅报告真实波动，不将微小差异视为显著收益。融合在log1p空间进行，使用同一组四窗外层预测，在0、0.25、0.5、0.75、1这五个全局权重中选择，包含单模型端点。""")
+最终神经候选在两个近期窗口用42、2026、3407三个种子复验，并对三份对数预测均值进行同窗检验；该诊断不改变已锁定的最终提交方案。权重为1的融合端点等同纯树，不能声称神经网络贡献了融合增益。仅报告真实波动，不将微小差异视为显著收益。融合在log1p空间进行，使用同一组四窗外层预测，在0、0.25、0.5、0.75、1这五个全局权重中选择，包含单模型端点。""")
 code("""nk=selection['network_kind']
 seed_rows=[]
 for seed,name in [(42,nk),(2026,nk+'_seed2026'),(3407,nk+'_seed3407')]:
@@ -217,6 +285,8 @@ for seed,name in [(42,nk),(2026,nk+'_seed2026'),(3407,nk+'_seed3407')]:
  seed_rows.append({'seed':seed,'two_window_RMSLE':np.sqrt(np.mean(rr.RMSLE**2))})
 seed_table=pd.DataFrame(seed_rows);display(seed_table)
 print('三种子均值与标准差：',seed_table.two_window_RMSLE.mean(),seed_table.two_window_RMSLE.std())
+ensemble=pd.read_csv(OUT/'seed_ensemble_diagnostics.csv');display(ensemble)
+print('两窗合并：单种子',np.sqrt(np.mean(ensemble.single_seed_RMSLE**2)),'；三种子预测均值',np.sqrt(np.mean(ensemble.three_seed_mean_RMSLE**2)))
 display(leader.round(5))
 blend=leader.loc[leader.model.str.startswith('blend_')].copy();blend['tree_weight']=blend.model.str.replace('blend_','',regex=False).astype(float)
 blend.sort_values('tree_weight').plot(x='tree_weight',y='pooled_RMSLE',marker='o',legend=False,figsize=(8,4));plt.title('OOF log-space blend');plt.ylabel('RMSLE');fig('05_fusion')
@@ -230,6 +300,14 @@ d.groupby('target_date')[['actual','prediction']].sum().plot(ax=ax[0]);ax[0].set
 d.groupby('h').sqlog.mean().pow(.5).plot(ax=ax[1],marker='o');ax[1].set(title='RMSLE by horizon',xlabel='Days ahead');fig('06_regression')
 family=d.groupby('family').sqlog.mean().pow(.5).sort_values(ascending=False);display(family.head(12).to_frame('RMSLE'))
 family.head(12).sort_values().plot.barh(figsize=(10,5));plt.xlabel('RMSLE');plt.title('Largest family errors');fig('07_family_errors')
+windows=pd.read_csv(OUT/'window_diagnostics.csv')
+comparison=windows.loc[windows.date.isin(dev)].pivot(index='date',columns='model',values='RMSLE')
+comparison['relative_improvement']=1-comparison[selection['tree_model']]/comparison.B0
+display(comparison)
+print('四窗改善数：',int(comparison.relative_improvement.gt(0).sum()),'；最差窗口相对变化（正数为改善）：',comparison.relative_improvement.min())
+groups=pd.read_csv(OUT/'group_diagnostics.csv')
+display(groups.loc[groups.date.eq('2017-07-31') & groups['group'].isin(['zero_sales','promotion'])])
+display(groups.loc[groups.date.eq('2017-07-31') & groups.model.eq('FINAL') & groups['group'].eq('store_nbr')].sort_values('RMSLE',ascending=False).head(10))
 """)
 md("""## 7. 正式测试预测与核验
 最终训练截至2017-08-15，只使用已锁定方案。分别导出树、神经和最终预测CSV，每份28512行，ID按官方样例顺序对齐。基础版文件原样保留，进阶版提交文件在outputs/advanced/中。
@@ -378,7 +456,7 @@ base_text = base_text.replace(
 rootreadme.write_text(base_text)
 execution = ROOT / "docs/advanced-execution.md"
 execution.write_text(
-    f"# 进阶版执行记录\n\n四窗开发选择：{final_description}，RMSLE={sel['development_rmsle']:.6f}。\n\n已完成：起点建样本、历史缺失掩码修正与回归测试、增强树及参数对照、基础6组神经结构与2组扩展、四窗评估、最终神经候选3种子复验、粗网格对数融合、固定回归窗口、最终训练与3份CSV、模型权重加载复现、独立指标审计和Notebook/HTML。\n\n实际CPU调整：width32，基础每轮4096条窗口/2或8轮，扩展每轮8192条/2或16轮。CPU推理和图表耗时可能包括资源调度等待。\n\n未完成：完整GPU预算实测、真实Kaggle提交回执，以及多种子预测集成验证。GPU配置、CUDA入口与patience机制已实现；当前环境没有CUDA硬件。不能用CPU数据冒充GPU实验或线上分数。\n\n原树特征中的缺失占位统计已修正，并重跑相关模型；最终排名不使用未修正结果。固定回归窗此前已观察过，不称新盲测。\n\n完整源码、数据哈希、训练预算和模型指标见outputs/advanced/；权重包含于进阶ZIP的checkpoints目录。"
+    f"# 进阶版执行记录\n\n四窗开发选择：{final_description}，RMSLE={sel['development_rmsle']:.6f}。\n\n已完成：起点建样本、历史缺失掩码修正与回归测试、增强树及参数对照、基础6组神经结构与2组扩展、四窗评估、最终神经候选3种子复验、粗网格对数融合、固定回归窗口、最终训练与3份CSV、模型权重加载复现、独立指标审计和Notebook/HTML。\n\n实际CPU调整：width32，基础每轮4096条窗口/2或8轮，扩展每轮8192条/2或16轮。CPU推理和图表耗时可能包括资源调度等待。\n\n未完成：完整GPU预算实测、真实Kaggle提交回执，以及多种子集成正式测试提交。GPU配置、CUDA入口与patience机制已实现；当前环境没有CUDA硬件。不能用CPU数据冒充GPU实验或线上分数。\n\n原树特征中的缺失占位统计已修正，并重跑相关模型；最终排名不使用未修正结果。固定回归窗此前已观察过，不称新盲测。\n\n完整源码、数据哈希、训练预算和模型指标见outputs/advanced/；权重包含于进阶ZIP的checkpoints目录。"
 )
 if actual_config["device"] == "cuda":
     execution.write_text(
