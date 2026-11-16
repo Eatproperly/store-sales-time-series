@@ -1,5 +1,11 @@
 # Store Sales：商店销量时间序列预测
 
+<!-- ADVANCED_RESULTS_START -->
+进阶版：[B3 实际实验报告](README_ADVANCED.md) · [下载进阶作业包](https://github.com/Eatproperly/store-sales-time-series/raw/refs/heads/main/Store_Sales_Advanced_Assignment.zip) · [GPU训练入口](Store_Sales_Advanced_GPU.ipynb)。本轮设备=cpu；Kaggle线上成绩待真实提交。
+<!-- ADVANCED_RESULTS_END -->
+
+
+
 进阶方案：[网络设计与实施计划](docs/superpowers/plans/2026-11-16-store-sales-advanced-plan.md)（设计阶段，收益待实际实验验证）。
 
 参照 House Prices 课程作业的组织形式，完成商店未来 16 天销量预测。包含中文报告、实际运行输出、8 组图表、周期基线与四种回归算法、参数比较、时间回测和提交文件。

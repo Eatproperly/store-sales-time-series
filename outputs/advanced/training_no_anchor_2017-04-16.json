@@ -1,0 +1,61 @@
+{
+  "inner_trials": [
+    {
+      "epochs": 2,
+      "inner_rmsle": 2.227191209793091
+    },
+    {
+      "epochs": 8,
+      "inner_rmsle": 0.5745790600776672
+    }
+  ],
+  "selected_epochs": 8,
+  "training_curve": [
+    {
+      "epoch": 1,
+      "train_log_mse": 16.8133056482051,
+      "seconds": 1.6120988960010436
+    },
+    {
+      "epoch": 2,
+      "train_log_mse": 7.025137310077346,
+      "seconds": 3.141952014000708
+    },
+    {
+      "epoch": 3,
+      "train_log_mse": 4.166777894746817,
+      "seconds": 4.6851252510005
+    },
+    {
+      "epoch": 4,
+      "train_log_mse": 1.5301610800930328,
+      "seconds": 6.180872461000035
+    },
+    {
+      "epoch": 5,
+      "train_log_mse": 0.576210792266502,
+      "seconds": 7.667251570999724
+    },
+    {
+      "epoch": 6,
+      "train_log_mse": 0.47204532854813563,
+      "seconds": 9.129456499000298
+    },
+    {
+      "epoch": 7,
+      "train_log_mse": 0.4473737132199855,
+      "seconds": 10.624851931001103
+    },
+    {
+      "epoch": 8,
+      "train_log_mse": 0.4556217403336044,
+      "seconds": 12.136492259000079
+    }
+  ],
+  "parameters": 62065,
+  "seed": 42,
+  "width": 32,
+  "kind": "no_anchor",
+  "windows_per_epoch": 4096,
+  "max_epochs": 8
+}

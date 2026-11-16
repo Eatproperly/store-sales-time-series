@@ -1,0 +1,15 @@
+test_calendar_missing_and_cutoff (test_advanced.AsOfTests.test_calendar_missing_and_cutoff) ... ok
+test_future_observations_invariance_and_known_promo (test_advanced.AsOfTests.test_future_observations_invariance_and_known_promo) ... ok
+test_tree_statistics_ignore_missing_placeholder (test_advanced.AsOfTests.test_tree_statistics_ignore_missing_placeholder) ... ok
+test_masked_metric_and_clipping (test_advanced.NeuralTests.test_masked_metric_and_clipping) ... ok
+test_shape_finite_and_anchor_init (test_advanced.NeuralTests.test_shape_finite_and_anchor_init) ... ok
+test_gpu_protocol_refuses_silent_cpu_fallback (test_advanced.TrainingTests.test_gpu_protocol_refuses_silent_cpu_fallback) ... ok
+test_patience_stops_on_constant_inner_score (test_advanced.TrainingTests.test_patience_stops_on_constant_inner_score) ... mixer2 2017-06-01 00:00:00 epoch 1 loss 0.0 sec 0.0
+mixer2 2017-06-01 00:00:00 epoch 2 loss 0.0 sec 0.0
+mixer2 2017-06-01 00:00:00 epoch 3 loss 0.0 sec 0.0
+ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 15.203s
+
+OK

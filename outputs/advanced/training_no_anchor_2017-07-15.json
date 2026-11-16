@@ -1,0 +1,59 @@
+{
+  "inner_trials": [
+    {
+      "epochs": 2,
+      "inner_rmsle": 2.295649766921997
+    },
+    {
+      "epochs": 8,
+      "inner_rmsle": 0.4181278347969055
+    }
+  ],
+  "selected_epochs": 8,
+  "training_curve": [
+    {
+      "epoch": 1,
+      "train_log_mse": 16.69311050698594,
+      "seconds": 1.6059946260002107
+    },
+    {
+      "epoch": 2,
+      "train_log_mse": 6.996339931473754,
+      "seconds": 3.04275875500025
+    },
+    {
+      "epoch": 3,
+      "train_log_mse": 4.258377436616941,
+      "seconds": 4.655528812999364
+    },
+    {
+      "epoch": 4,
+      "train_log_mse": 1.734019308113495,
+      "seconds": 6.204915860000256
+    },
+    {
+      "epoch": 5,
+      "train_log_mse": 0.6365760008474018,
+      "seconds": 7.797547489999488
+    },
+    {
+      "epoch": 6,
+      "train_log_mse": 0.45115785008465403,
+      "seconds": 9.270298688999901
+    },
+    {
+      "epoch": 7,
+      "train_log_mse": 0.40531367927730905,
+      "seconds": 10.91144837199954
+    },
+    {
+      "epoch": 8,
+      "train_log_mse": 0.4004541782074713,
+      "seconds": 12.407334479999918
+    }
+  ],
+  "parameters": 62065,
+  "seed": 42,
+  "width": 32,
+  "kind": "no_anchor"
+}

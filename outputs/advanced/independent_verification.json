@@ -1,0 +1,368 @@
+{
+  "verified_experiments": [
+    {
+      "model": "B0",
+      "date": "2016-08-16",
+      "rmsle_recomputed": 0.7302428358198293,
+      "labels_match": true
+    },
+    {
+      "model": "B0",
+      "date": "2017-04-16",
+      "rmsle_recomputed": 0.5217311417202299,
+      "labels_match": true
+    },
+    {
+      "model": "B0",
+      "date": "2017-06-15",
+      "rmsle_recomputed": 0.39387275123049786,
+      "labels_match": true
+    },
+    {
+      "model": "B0",
+      "date": "2017-07-15",
+      "rmsle_recomputed": 0.4010661355937815,
+      "labels_match": true
+    },
+    {
+      "model": "B0",
+      "date": "2017-07-31",
+      "rmsle_recomputed": 0.42610837342755414,
+      "labels_match": true
+    },
+    {
+      "model": "mlp",
+      "date": "2017-06-15",
+      "rmsle_recomputed": 0.4286023246201944,
+      "labels_match": true
+    },
+    {
+      "model": "mlp",
+      "date": "2017-07-15",
+      "rmsle_recomputed": 0.4212709784994641,
+      "labels_match": true
+    },
+    {
+      "model": "mixer2",
+      "date": "2017-06-15",
+      "rmsle_recomputed": 0.4270481528438105,
+      "labels_match": true
+    },
+    {
+      "model": "mixer2",
+      "date": "2017-07-15",
+      "rmsle_recomputed": 0.42456067372055406,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3",
+      "date": "2017-06-15",
+      "rmsle_recomputed": 0.42012032495228707,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3",
+      "date": "2017-07-15",
+      "rmsle_recomputed": 0.42224328670562683,
+      "labels_match": true
+    },
+    {
+      "model": "no_pair",
+      "date": "2017-06-15",
+      "rmsle_recomputed": 0.4262333706367809,
+      "labels_match": true
+    },
+    {
+      "model": "no_pair",
+      "date": "2017-07-15",
+      "rmsle_recomputed": 0.42371893311768727,
+      "labels_match": true
+    },
+    {
+      "model": "no_promo",
+      "date": "2017-06-15",
+      "rmsle_recomputed": 0.4239037100967948,
+      "labels_match": true
+    },
+    {
+      "model": "no_promo",
+      "date": "2017-07-15",
+      "rmsle_recomputed": 0.42579464400945877,
+      "labels_match": true
+    },
+    {
+      "model": "no_anchor",
+      "date": "2017-06-15",
+      "rmsle_recomputed": 0.4360762608358872,
+      "labels_match": true
+    },
+    {
+      "model": "no_anchor",
+      "date": "2017-07-15",
+      "rmsle_recomputed": 0.43215726327399295,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3_long",
+      "date": "2017-06-15",
+      "rmsle_recomputed": 0.4051563956238056,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3_long",
+      "date": "2017-07-15",
+      "rmsle_recomputed": 0.4064616377467772,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3_long",
+      "date": "2016-08-16",
+      "rmsle_recomputed": 0.7466311379034657,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3_long",
+      "date": "2017-04-16",
+      "rmsle_recomputed": 0.6748222313037384,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3",
+      "date": "2016-08-16",
+      "rmsle_recomputed": 0.7668031884202975,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3",
+      "date": "2017-04-16",
+      "rmsle_recomputed": 0.7200504977709994,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3_long_seed2026",
+      "date": "2017-06-15",
+      "rmsle_recomputed": 0.40649346648765955,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3_long_seed2026",
+      "date": "2017-07-15",
+      "rmsle_recomputed": 0.40315674531373463,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3_long_seed3407",
+      "date": "2017-06-15",
+      "rmsle_recomputed": 0.41098097954236285,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3_long_seed3407",
+      "date": "2017-07-15",
+      "rmsle_recomputed": 0.4051518221098774,
+      "labels_match": true
+    },
+    {
+      "model": "B1",
+      "date": "2016-08-16",
+      "rmsle_recomputed": 0.6972265437210355,
+      "labels_match": true
+    },
+    {
+      "model": "B1",
+      "date": "2017-04-16",
+      "rmsle_recomputed": 0.49265867108593353,
+      "labels_match": true
+    },
+    {
+      "model": "B1",
+      "date": "2017-06-15",
+      "rmsle_recomputed": 0.3838359989963668,
+      "labels_match": true
+    },
+    {
+      "model": "B1",
+      "date": "2017-07-15",
+      "rmsle_recomputed": 0.3864974759138996,
+      "labels_match": true
+    },
+    {
+      "model": "B1_2016",
+      "date": "2017-06-15",
+      "rmsle_recomputed": 0.38249613095439383,
+      "labels_match": true
+    },
+    {
+      "model": "B1_2016",
+      "date": "2017-07-15",
+      "rmsle_recomputed": 0.3909687547182302,
+      "labels_match": true
+    },
+    {
+      "model": "B2",
+      "date": "2017-06-15",
+      "rmsle_recomputed": 0.3830662719681935,
+      "labels_match": true
+    },
+    {
+      "model": "B2",
+      "date": "2017-07-15",
+      "rmsle_recomputed": 0.3873358368128628,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3_scale",
+      "date": "2017-06-15",
+      "rmsle_recomputed": 0.41052380930465926,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3_scale",
+      "date": "2017-07-15",
+      "rmsle_recomputed": 0.40363244582802943,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3_scale",
+      "date": "2016-08-16",
+      "rmsle_recomputed": 0.7061770510605796,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3_scale",
+      "date": "2017-04-16",
+      "rmsle_recomputed": 0.6631362924834522,
+      "labels_match": true
+    },
+    {
+      "model": "B3",
+      "date": "2017-06-15",
+      "rmsle_recomputed": 0.3826966860729397,
+      "labels_match": true
+    },
+    {
+      "model": "B3",
+      "date": "2017-07-15",
+      "rmsle_recomputed": 0.38581951748776006,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3_scale_seed2026",
+      "date": "2017-06-15",
+      "rmsle_recomputed": 0.40979559018654205,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3_scale_seed2026",
+      "date": "2017-07-15",
+      "rmsle_recomputed": 0.40249076939813644,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3_scale_seed3407",
+      "date": "2017-06-15",
+      "rmsle_recomputed": 0.4262447767807206,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3_scale_seed3407",
+      "date": "2017-07-15",
+      "rmsle_recomputed": 0.4061405998472498,
+      "labels_match": true
+    },
+    {
+      "model": "B3",
+      "date": "2016-08-16",
+      "rmsle_recomputed": 0.6841820304455677,
+      "labels_match": true
+    },
+    {
+      "model": "B3",
+      "date": "2017-04-16",
+      "rmsle_recomputed": 0.49365714743885647,
+      "labels_match": true
+    },
+    {
+      "model": "no_promo",
+      "date": "2016-08-16",
+      "rmsle_recomputed": 0.7772391759555999,
+      "labels_match": true
+    },
+    {
+      "model": "no_promo",
+      "date": "2017-04-16",
+      "rmsle_recomputed": 0.7585555442890098,
+      "labels_match": true
+    },
+    {
+      "model": "mlp",
+      "date": "2016-08-16",
+      "rmsle_recomputed": 0.7695282658304915,
+      "labels_match": true
+    },
+    {
+      "model": "mlp",
+      "date": "2017-04-16",
+      "rmsle_recomputed": 0.7328093152081349,
+      "labels_match": true
+    },
+    {
+      "model": "mixer2",
+      "date": "2016-08-16",
+      "rmsle_recomputed": 0.7688110060204804,
+      "labels_match": true
+    },
+    {
+      "model": "mixer2",
+      "date": "2017-04-16",
+      "rmsle_recomputed": 0.7410427400925979,
+      "labels_match": true
+    },
+    {
+      "model": "no_pair",
+      "date": "2016-08-16",
+      "rmsle_recomputed": 0.7648906601605194,
+      "labels_match": true
+    },
+    {
+      "model": "no_pair",
+      "date": "2017-04-16",
+      "rmsle_recomputed": 0.7383309699035264,
+      "labels_match": true
+    },
+    {
+      "model": "no_anchor",
+      "date": "2016-08-16",
+      "rmsle_recomputed": 0.8354884367535522,
+      "labels_match": true
+    },
+    {
+      "model": "no_anchor",
+      "date": "2017-04-16",
+      "rmsle_recomputed": 0.7309665476129797,
+      "labels_match": true
+    },
+    {
+      "model": "B3",
+      "date": "2017-07-31",
+      "rmsle_recomputed": 0.40603069565288563,
+      "labels_match": true
+    },
+    {
+      "model": "mixer3_scale",
+      "date": "2017-07-31",
+      "rmsle_recomputed": 0.4532271767153235,
+      "labels_match": true
+    },
+    {
+      "model": "FINAL",
+      "date": "2017-07-31",
+      "rmsle_recomputed": 0.40603069565288563,
+      "labels_match": true
+    }
+  ],
+  "submission_rows": 28512,
+  "submission_id_order_matches": true,
+  "labels_matched_original": true,
+  "kaggle_public_score": null
+}

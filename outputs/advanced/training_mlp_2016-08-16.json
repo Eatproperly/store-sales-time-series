@@ -1,0 +1,61 @@
+{
+  "inner_trials": [
+    {
+      "epochs": 2,
+      "inner_rmsle": 0.49845847487449646
+    },
+    {
+      "epochs": 8,
+      "inner_rmsle": 0.48559921979904175
+    }
+  ],
+  "selected_epochs": 8,
+  "training_curve": [
+    {
+      "epoch": 1,
+      "train_log_mse": 0.36949846490239985,
+      "seconds": 0.27192622700022184
+    },
+    {
+      "epoch": 2,
+      "train_log_mse": 0.2871214896217455,
+      "seconds": 0.5654387479989964
+    },
+    {
+      "epoch": 3,
+      "train_log_mse": 0.3147274358200464,
+      "seconds": 0.8731411019998632
+    },
+    {
+      "epoch": 4,
+      "train_log_mse": 0.2827767185951621,
+      "seconds": 1.16927421499895
+    },
+    {
+      "epoch": 5,
+      "train_log_mse": 0.29633379393108905,
+      "seconds": 1.4740596350002306
+    },
+    {
+      "epoch": 6,
+      "train_log_mse": 0.23568163838358386,
+      "seconds": 1.7748731360006786
+    },
+    {
+      "epoch": 7,
+      "train_log_mse": 0.27335185306231385,
+      "seconds": 2.0666410909998376
+    },
+    {
+      "epoch": 8,
+      "train_log_mse": 0.2774805644220606,
+      "seconds": 2.353157219999048
+    }
+  ],
+  "parameters": 217569,
+  "seed": 42,
+  "width": 32,
+  "kind": "mlp",
+  "windows_per_epoch": 4096,
+  "max_epochs": 8
+}

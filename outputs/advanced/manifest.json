@@ -1,0 +1,24 @@
+{
+  "source_sha256": {
+    "src/store_sales/evaluation.py": "fba959233250b19c7a97497fe8e2fb3b371bece68df3bd0648d0ea14fd4a647f",
+    "src/store_sales/training.py": "d3556fa4bb548351e7995951d20d2f0767a5f82a1528c02c43096ca3ababe520",
+    "src/store_sales/data.py": "bc5371eb7639e0b5b28ed495258e5e0f0345a4ed51785750bbed2556a1eb220e",
+    "src/store_sales/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/store_sales/models/tree.py": "652c3122c3016e011e9e02986b3833ee3fe6dd4fb9aa4153e3d033db565af3a3",
+    "src/store_sales/models/mixer.py": "4fb7549b1ad3cc03487cd290575809848cea1389a1f839a49c6d17eb39c3a2f4",
+    "src/store_sales/models/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/run_advanced.py": "ccdeaaa9f0dcdc27509581018c041d0e7f10850fc3abd72a5e02a5f23cdb0cf9",
+    "configs/advanced.yaml": "035587cb97254d72a546b6a87198799151987f13dca91b2b06f415a0bb452031"
+  },
+  "data_sha256": {
+    "holidays_events.csv": "81a183d6c4d691b57f84a0fde6bbf734a5b3c36a74b97378bf33a592648e2999",
+    "test.csv": "087ec1ecec76dbba9ea2adb48b8b2fd527c7c59adb82b0dfb9f6f82739400d26",
+    "train.csv": "99a1b7f4241821df10fa71f23abdd71c634f71f901e3cab1400c0f0c583f862c",
+    "transactions.csv": "e116384a6981af74932832436aa2f6a43121f77ca81accc44e3a5160158ca03c",
+    "oil.csv": "944b23b857580f9d804399346fd3ed69bffcb7facfd98c55fdb408b8d057cca7",
+    "stores.csv": "af503b2bce11d7906d249f81cc0598f10e2addcc9f6c59aa2d95c9f2652c296b",
+    "sample_submission.csv": "17505ec561d9bc64a3c10c3eb00474becf162d9053cebf014a58a6c82ed530c4"
+  },
+  "source_snapshot_commit": "1c5b1f646686dcf8d5eaec4c19f16f0bc57a1b27",
+  "baseline_notebook_code_sha256": "363d70b034abff01137dfb121073af052c2c39b684db3b6cabf1caf7a8de8e76"
+}

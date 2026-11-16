@@ -1,0 +1,56 @@
+{
+  "winner": "blend_1.0",
+  "weight_tree": 1.0,
+  "network_kind": "mixer3_scale",
+  "development_rmsle": 0.501775819311092,
+  "cpu_config": {
+    "device": "cpu",
+    "width": 32,
+    "batch_size": 256,
+    "inner_mode": "budget",
+    "windows_per_epoch": 4096,
+    "epoch_candidates": [
+      2,
+      8
+    ],
+    "max_epochs": 8,
+    "history": 112,
+    "horizon": 16,
+    "seed": 42,
+    "extended_cpu_protocol": {
+      "enabled": true,
+      "kind": "mixer3_long / mixer3_scale",
+      "max_epochs": 16,
+      "windows_per_epoch": 8192
+    },
+    "gpu_available": false,
+    "torch_version": "2.15.0+cpu",
+    "baseline_commit": "937fe5840828e5d68443b30637320db9dbc9456b",
+    "deviation": "Bounded sampled-epoch training; inner epoch budget comparison rather than patience-based early stopping. See width, sampler and epoch fields."
+  },
+  "tree_model": "B3",
+  "tree_params": {
+    "boosting_type": "gbdt",
+    "class_weight": null,
+    "colsample_bytree": 1.0,
+    "importance_type": "split",
+    "learning_rate": 0.05,
+    "max_depth": -1,
+    "min_child_samples": 80,
+    "min_child_weight": 0.001,
+    "min_split_gain": 0.0,
+    "n_estimators": 600,
+    "n_jobs": 2,
+    "num_leaves": 63,
+    "objective": null,
+    "random_state": 42,
+    "reg_alpha": 0.0,
+    "reg_lambda": 1.0,
+    "subsample": 1.0,
+    "subsample_for_bin": 200000,
+    "subsample_freq": 0,
+    "verbosity": -1,
+    "max_bin": 63
+  },
+  "train_start": "2015-01-01"
+}

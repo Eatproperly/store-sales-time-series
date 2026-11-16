@@ -1,0 +1,101 @@
+{
+  "inner_trials": [
+    {
+      "epochs": 2,
+      "inner_rmsle": 0.41583919525146484
+    },
+    {
+      "epochs": 16,
+      "inner_rmsle": 0.3875376880168915
+    }
+  ],
+  "selected_epochs": 16,
+  "training_curve": [
+    {
+      "epoch": 1,
+      "train_log_mse": 0.3423947643848276,
+      "seconds": 9.369092912999804
+    },
+    {
+      "epoch": 2,
+      "train_log_mse": 0.3473104075987621,
+      "seconds": 18.504536727999948
+    },
+    {
+      "epoch": 3,
+      "train_log_mse": 0.3392456644971229,
+      "seconds": 27.496910326000034
+    },
+    {
+      "epoch": 4,
+      "train_log_mse": 0.3005076176111843,
+      "seconds": 35.362292607999734
+    },
+    {
+      "epoch": 5,
+      "train_log_mse": 0.301461414209095,
+      "seconds": 44.28411062199939
+    },
+    {
+      "epoch": 6,
+      "train_log_mse": 0.3010539906501515,
+      "seconds": 52.51345320099972
+    },
+    {
+      "epoch": 7,
+      "train_log_mse": 0.27184065740230734,
+      "seconds": 62.09630791499967
+    },
+    {
+      "epoch": 8,
+      "train_log_mse": 0.2721453024515558,
+      "seconds": 71.6076018169997
+    },
+    {
+      "epoch": 9,
+      "train_log_mse": 0.2665750291707018,
+      "seconds": 80.17085904899977
+    },
+    {
+      "epoch": 10,
+      "train_log_mse": 0.25039594371491103,
+      "seconds": 88.89675676999923
+    },
+    {
+      "epoch": 11,
+      "train_log_mse": 0.23561249519120783,
+      "seconds": 99.47938882899962
+    },
+    {
+      "epoch": 12,
+      "train_log_mse": 0.2636808052123923,
+      "seconds": 108.28802992199962
+    },
+    {
+      "epoch": 13,
+      "train_log_mse": 0.24419769863646934,
+      "seconds": 118.11822996699993
+    },
+    {
+      "epoch": 14,
+      "train_log_mse": 0.23900068345285305,
+      "seconds": 133.7956455399999
+    },
+    {
+      "epoch": 15,
+      "train_log_mse": 0.22366044607027097,
+      "seconds": 143.6926245959994
+    },
+    {
+      "epoch": 16,
+      "train_log_mse": 0.24434058163521308,
+      "seconds": 155.1051527740001
+    }
+  ],
+  "parameters": 73697,
+  "seed": 2026,
+  "width": 32,
+  "kind": "mixer3_long",
+  "windows_per_epoch": 8192,
+  "max_epochs": 16
+}

@@ -1,0 +1,12 @@
+{
+  "weights_reproduce_saved_predictions": true,
+  "max_abs_log_prediction_difference": {
+    "tree": 4.440892098500626e-16,
+    "network": 1.063595505002013e-07,
+    "final": 4.440892098500626e-16
+  },
+  "model_file_sha256": {
+    "network.pt": "fa1aed5381ef099b9625487e729fd3594176c0e1ea58be8b368e7c50c93e2fd6",
+    "tree.txt": "70aeb9541571d67c026d61f1dc75f3fa061491f26dbd7dd8e58c014ea67d3742"
+  }
+}

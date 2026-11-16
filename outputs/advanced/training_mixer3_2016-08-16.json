@@ -1,0 +1,61 @@
+{
+  "inner_trials": [
+    {
+      "epochs": 2,
+      "inner_rmsle": 0.487928569316864
+    },
+    {
+      "epochs": 8,
+      "inner_rmsle": 0.4838542342185974
+    }
+  ],
+  "selected_epochs": 8,
+  "training_curve": [
+    {
+      "epoch": 1,
+      "train_log_mse": 0.37065099046791716,
+      "seconds": 3.0999866619995373
+    },
+    {
+      "epoch": 2,
+      "train_log_mse": 0.29811072646205944,
+      "seconds": 6.445899987999837
+    },
+    {
+      "epoch": 3,
+      "train_log_mse": 0.3431660082296187,
+      "seconds": 9.608373810999183
+    },
+    {
+      "epoch": 4,
+      "train_log_mse": 0.3119429502798658,
+      "seconds": 12.552574575999643
+    },
+    {
+      "epoch": 5,
+      "train_log_mse": 0.3205790321724941,
+      "seconds": 16.325282899999365
+    },
+    {
+      "epoch": 6,
+      "train_log_mse": 0.25670498180111356,
+      "seconds": 19.72148966899931
+    },
+    {
+      "epoch": 7,
+      "train_log_mse": 0.29367496323878683,
+      "seconds": 21.84778255799938
+    },
+    {
+      "epoch": 8,
+      "train_log_mse": 0.303987514451557,
+      "seconds": 23.980079685999954
+    }
+  ],
+  "parameters": 73697,
+  "seed": 42,
+  "width": 32,
+  "kind": "mixer3",
+  "windows_per_epoch": 4096,
+  "max_epochs": 8
+}

@@ -1,0 +1,25 @@
+{
+  "device": "cpu",
+  "width": 32,
+  "batch_size": 256,
+  "inner_mode": "budget",
+  "windows_per_epoch": 4096,
+  "epoch_candidates": [
+    2,
+    8
+  ],
+  "max_epochs": 8,
+  "history": 112,
+  "horizon": 16,
+  "seed": 42,
+  "extended_cpu_protocol": {
+    "enabled": true,
+    "kind": "mixer3_long / mixer3_scale",
+    "max_epochs": 16,
+    "windows_per_epoch": 8192
+  },
+  "gpu_available": false,
+  "torch_version": "2.15.0+cpu",
+  "baseline_commit": "937fe5840828e5d68443b30637320db9dbc9456b",
+  "deviation": "Bounded sampled-epoch training; inner epoch budget comparison rather than patience-based early stopping. See width, sampler and epoch fields."
+}

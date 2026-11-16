@@ -1,0 +1,59 @@
+{
+  "inner_trials": [
+    {
+      "epochs": 2,
+      "inner_rmsle": 0.42416730523109436
+    },
+    {
+      "epochs": 8,
+      "inner_rmsle": 0.41706880927085876
+    }
+  ],
+  "selected_epochs": 8,
+  "training_curve": [
+    {
+      "epoch": 1,
+      "train_log_mse": 0.3623140100664123,
+      "seconds": 1.5351079450001635
+    },
+    {
+      "epoch": 2,
+      "train_log_mse": 0.3361946585305652,
+      "seconds": 3.0287594080000417
+    },
+    {
+      "epoch": 3,
+      "train_log_mse": 0.36153476257679407,
+      "seconds": 4.439386305999506
+    },
+    {
+      "epoch": 4,
+      "train_log_mse": 0.3320569776204933,
+      "seconds": 5.795688716999393
+    },
+    {
+      "epoch": 5,
+      "train_log_mse": 0.33001696135257624,
+      "seconds": 7.373350036999909
+    },
+    {
+      "epoch": 6,
+      "train_log_mse": 0.28677356826755146,
+      "seconds": 8.973998206999568
+    },
+    {
+      "epoch": 7,
+      "train_log_mse": 0.29968102748985564,
+      "seconds": 10.61265885299963
+    },
+    {
+      "epoch": 8,
+      "train_log_mse": 0.28331918541946943,
+      "seconds": 12.05384466399937
+    }
+  ],
+  "parameters": 62065,
+  "seed": 42,
+  "width": 32,
+  "kind": "no_promo"
+}

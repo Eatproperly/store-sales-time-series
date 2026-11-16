@@ -1,0 +1,5 @@
+{
+  "missing_history_policy": "Native NaN lag values; observed-only means/std/zero ratios; explicit observation flag",
+  "preliminary_tree_metrics_replaced": true,
+  "advanced_R_was_not_scored_before_selection_lock": true
+}
