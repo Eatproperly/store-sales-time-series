@@ -179,7 +179,7 @@ Mixer沿时间与特征维混合，带LayerNorm、GELU、Dropout和残差；时�
 
 训练采用log销量MSE、AdamW、梯度裁剪。以下直接展示本轮执行的网络源码。组合嵌入消融采用置零关闭，注册参数量仍包含该表；比较的是信息使用而非模型压缩。CPU耗时受并行阶段资源共享影响，不作为专用硬件速度基准。""")
 code("""from store_sales.models.mixer import Block,ForecastNet
-for cls in [Block,ForecastNet]:display(Markdown('```python\n'+inspect.getsource(cls)+'\n```'))
+for cls in [Block,ForecastNet]:display(Markdown('```python'+chr(10)+inspect.getsource(cls)+chr(10)+'```'))
 from matplotlib.patches import FancyBboxPatch
 f,ax=plt.subplots(figsize=(12,5));ax.axis('off')
 boxes=[(.02,.65,'112-day history + masks'),(.02,.3,'Static IDs / future promotion'),(.36,.65,'MLP / residual Mixer'),(.36,.3,'16-step shared decoder'),(.72,.48,'Seasonal anchor + delta'),(.72,.12,'16-day sales forecast')]
@@ -302,6 +302,9 @@ n = nb.v4.new_notebook(
         }
     },
 )
+for index, cell in enumerate(n.cells):
+    if cell.cell_type == "code":
+        compile(cell.source, f"report_cell_{index}", "exec")
 nb.write(n, ROOT / "Store_Sales_Advanced.ipynb")
 client = NotebookClient(n, timeout=600, resources={"metadata": {"path": str(ROOT)}})
 try:
