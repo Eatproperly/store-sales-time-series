@@ -164,7 +164,7 @@ display(Markdown(f'**实际结果摘要：** 开发阶段选择 **{display_name}
 md("""## 2. 预测起点样本与增强树
 树模型把每个起点展开为16个预测步长，使用截至T的最新1/7/14/28/56天信息、均值、波动、零销量比例、门店和品类总量、历史同星期锚点，以及未来已知促销、日历和364天前参照。训练标签末日必须不晚于该折截止日。
 
-B0是冻结的基础模型；B1使用2015年以来的起点样本；B1_2016单独检验训练窗；B2增加截至起点的油价和交易信息；B3比较600轮、63直方图bins、全列采样的高效参数组。两组近期窗口用于选择树配置，只有选中的树扩展到完整四窗。""")
+B0是冻结的基础模型；B1使用2015年以来的起点样本；B1_2016单独检验训练窗；B2增加截至起点的油价和交易信息；B3比较600轮、63直方图bins、全列采样的高效参数组。两组近期窗口用于初筛树配置，将候选B1和B3扩展到完整四窗，按四窗结果锁定最终模型。""")
 code("""table=metrics.loc[metrics.date.isin(dev)].pivot(index='model',columns='date',values='RMSLE')
 table['window_count']=table.notna().sum(axis=1)
 table['available_windows_pooled']=np.sqrt((table[dev]**2).mean(axis=1))
@@ -179,7 +179,7 @@ Mixer沿时间与特征维混合，带LayerNorm、GELU、Dropout和残差；时�
 
 训练采用log销量MSE、AdamW、梯度裁剪。以下直接展示本轮执行的网络源码。组合嵌入消融采用置零关闭，注册参数量仍包含该表；比较的是信息使用而非模型压缩。CPU耗时受并行阶段资源共享影响，不作为专用硬件速度基准。""")
 code("""from store_sales.models.mixer import Block,ForecastNet
-for cls in [Block,ForecastNet]:display(Markdown('```python\\n'+inspect.getsource(cls)+'\\n```'))
+for cls in [Block,ForecastNet]:display(Markdown('```python\n'+inspect.getsource(cls)+'\n```'))
 from matplotlib.patches import FancyBboxPatch
 f,ax=plt.subplots(figsize=(12,5));ax.axis('off')
 boxes=[(.02,.65,'112-day history + masks'),(.02,.3,'Static IDs / future promotion'),(.36,.65,'MLP / residual Mixer'),(.36,.3,'16-step shared decoder'),(.72,.48,'Seasonal anchor + delta'),(.72,.12,'16-day sales forecast')]
