@@ -30,9 +30,104 @@ def sha(file):
     return hashlib.sha256(file.read_bytes()).hexdigest()
 
 
+def effective_format(paragraph):
+    run = paragraph.runs[0]
+    style = paragraph.style
+    actual = paragraph.paragraph_format
+    inherited = style.paragraph_format
+    fonts = style.element.get_or_add_rPr().get_or_add_rFonts()
+    run_fonts = run._element.get_or_add_rPr().rFonts
+
+    def pick(name, default):
+        value = getattr(actual, name)
+        if value is None:
+            value = getattr(inherited, name)
+        return default if value is None else value
+
+    return {
+        "latin_font": run.font.name or style.font.name,
+        "cjk_font": (run_fonts.get(qn("w:eastAsia")) if run_fonts is not None else None)
+        or fonts.get(qn("w:eastAsia")),
+        "size_pt": (run.font.size or style.font.size).pt,
+        "alignment": int(pick("alignment", WD_ALIGN_PARAGRAPH.JUSTIFY)),
+        "line_spacing": float(pick("line_spacing", 1.0)),
+        "space_before_pt": pick("space_before", Pt(0)).pt,
+        "space_after_pt": pick("space_after", Pt(0)).pt,
+        "first_line_indent_pt": pick("first_line_indent", Pt(0)).pt,
+        "bold": run.bold if run.bold is not None else bool(style.font.bold),
+    }
+
+
+def compare_reference(report, reference_path):
+    reference = Document(reference_path)
+    pairs = [
+        ("title", reference.paragraphs[0], report.paragraphs[0]),
+        (
+            "abstract_heading",
+            reference.paragraphs[1],
+            next(p for p in report.paragraphs if p.text == "摘要"),
+        ),
+        (
+            "body",
+            reference.paragraphs[2],
+            next(p for p in report.paragraphs if p.text.startswith("本项目以")),
+        ),
+        (
+            "heading_1",
+            next(p for p in reference.paragraphs if p.text.startswith("一、")),
+            next(p for p in report.paragraphs if p.text.startswith("一、")),
+        ),
+        (
+            "heading_2",
+            next(p for p in reference.paragraphs if p.text.startswith("1.1 ")),
+            next(p for p in report.paragraphs if p.text.startswith("1.1 ")),
+        ),
+        (
+            "table_header",
+            reference.tables[0].cell(0, 0).paragraphs[0],
+            report.tables[0].cell(0, 0).paragraphs[0],
+        ),
+        (
+            "table_body",
+            reference.tables[0].cell(1, 0).paragraphs[0],
+            report.tables[0].cell(1, 0).paragraphs[0],
+        ),
+    ]
+    checks = []
+    for name, source, output in pairs:
+        expected, actual = effective_format(source), effective_format(output)
+        expected_without_bold = {
+            key: value for key, value in expected.items() if key != "bold"
+        }
+        actual_without_bold = {
+            key: value for key, value in actual.items() if key != "bold"
+        }
+        assert expected_without_bold == actual_without_bold, (name, expected, actual)
+        assert actual["bold"] is False, name
+        checks.append(
+            {
+                "element": name,
+                "reference": expected,
+                "report": actual,
+                "format_matches_except_requested_no_bold": True,
+            }
+        )
+    return {
+        "reference_filename": reference_path.name,
+        "reference_sha256": sha(reference_path),
+        "requested_override": "All bold removed, including headings, title, keywords and table headers",
+        "checks": checks,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--pdf", action="store_true")
+    parser.add_argument(
+        "--reference-docx",
+        type=Path,
+        help="Compare actual paragraph formatting against the user reference",
+    )
     args = parser.parse_args()
     metrics = pd.read_csv(OUT / "metrics.csv")
     leader = pd.read_csv(OUT / "leaderboard.csv").set_index("model").pooled_RMSLE
@@ -115,7 +210,8 @@ def main():
     for name, size in [("Normal", 12), ("Heading 1", 22), ("Heading 2", 16)]:
         style = doc.styles[name]
         style.font.name, style.font.size = "Times New Roman", Pt(size)
-        style.font.bold = name != "Normal"
+        style.font.bold = False
+        style.font.cs_bold = False
         style.font.color.rgb = RGBColor(0, 0, 0)
         fonts = style.element.get_or_add_rPr().get_or_add_rFonts()
         fonts.set(qn("w:eastAsia"), "宋体")
@@ -127,7 +223,7 @@ def main():
         pf.alignment = (
             WD_ALIGN_PARAGRAPH.JUSTIFY if name == "Normal" else WD_ALIGN_PARAGRAPH.LEFT
         )
-        pf.widow_control = True
+        pf.widow_control = False
         if name != "Normal":
             pf.keep_with_next = pf.keep_together = True
     doc.core_properties.title = "Store Sales：商店销量时序预测（进阶版）"
@@ -156,9 +252,9 @@ def main():
                 cells = table.add_row().cells
                 for cell, text in zip(cells, row):
                     cell.text = text
-                    cell.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.LEFT
+                    cell.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
                     for run in cell.paragraphs[0].runs:
-                        run.bold = number == 0
+                        run.bold = False
                 table.rows[-1]._tr.get_or_add_trPr().append(OxmlElement("w:cantSplit"))
             table.rows[0]._tr.get_or_add_trPr().append(OxmlElement("w:tblHeader"))
         elif line.startswith("### "):
@@ -172,12 +268,23 @@ def main():
             paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
             paragraph.paragraph_format.space_after = Pt(10)
             run = paragraph.add_run(line[2:])
-            run.bold, run.font.size = True, Pt(14)
+            run.bold, run.font.size = False, Pt(14)
         else:
             paragraph = doc.add_paragraph()
-            paragraph.add_run(line).bold = line.startswith("关键词：")
+            paragraph.add_run(line).bold = False
             if line.startswith("姓名："):
                 paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    all_paragraphs = list(doc.paragraphs) + [
+        paragraph
+        for table in doc.tables
+        for row in table.rows
+        for cell in row.cells
+        for paragraph in cell.paragraphs
+    ]
+    for paragraph in all_paragraphs:
+        for run in paragraph.runs:
+            run.bold = False
+            run.font.cs_bold = False
     docx_path = ROOT / (NAME + ".docx")
     doc.save(docx_path)
     (ROOT / (NAME + ".md")).write_text(content)
@@ -189,6 +296,24 @@ def main():
         assert style.font.size.pt == size
         assert style.font.name == "Times New Roman"
         assert style.element.get_or_add_rPr().rFonts.get(qn("w:eastAsia")) == "宋体"
+        assert style.font.bold is False and style.font.cs_bold is False
+    loaded_paragraphs = list(loaded.paragraphs) + [
+        paragraph
+        for table in loaded.tables
+        for row in table.rows
+        for cell in row.cells
+        for paragraph in cell.paragraphs
+    ]
+    assert all(
+        run.bold is False and run.font.cs_bold is False
+        for paragraph in loaded_paragraphs
+        for run in paragraph.runs
+    )
+    if args.reference_docx:
+        comparison = compare_reference(loaded, args.reference_docx)
+        (OUT / "word_format_comparison.json").write_text(
+            json.dumps(comparison, ensure_ascii=False, indent=2)
+        )
     body = "\n".join(p.text for p in loaded.paragraphs)
     assert all(
         value in body
@@ -259,7 +384,9 @@ def main():
         "reference": "House_Prices_期末大作业3(1).docx",
         "word_fonts": {"eastAsia": "宋体", "latin": "Times New Roman"},
         "font_sizes_pt": {"title": 14, "body": 12, "heading_1": 22, "heading_2": 16},
-        "reference_use": "Formatting and prose-first organization only",
+        "reference_use": "Typography and prose-first layout; all bold removed per user request",
+        "requested_format_overrides": {"bold": False},
+        "reference_sha256": sha(args.reference_docx) if args.reference_docx else None,
         "pdf_font_substitution": {
             "宋体": "Noto Serif CJK SC",
             "Times New Roman": "Liberation Serif",
@@ -281,7 +408,9 @@ def main():
         "pages": pages,
         "tables": 1,
         "embedded_figures": 0,
-        "word_style_matches_updated_sample": True,
+        "reference_layout_matches_with_requested_no_bold_override": True,
+        "reference_document_compared": bool(args.reference_docx),
+        "all_bold_removed": True,
         "pdf_cjk_paragraph_text_preserved": args.pdf,
         "no_blank_pages": args.pdf,
         "model_training_performed": False,

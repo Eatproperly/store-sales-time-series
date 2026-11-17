@@ -10,7 +10,11 @@
     "heading_1": 22,
     "heading_2": 16
   },
-  "reference_use": "Formatting and prose-first organization only",
+  "reference_use": "Typography and prose-first layout; all bold removed per user request",
+  "requested_format_overrides": {
+    "bold": false
+  },
+  "reference_sha256": "c3096628c15ad3fc0b1eddb4ac8f5fee565a9faff726f91cfee60ad6e7dc99ba",
   "pdf_font_substitution": {
     "宋体": "Noto Serif CJK SC",
     "Times New Roman": "Liberation Serif"
@@ -19,7 +23,7 @@
   "report_device": "cpu",
   "kaggle_public_score": null,
   "embedded_figures": [],
-  "docx_sha256": "bbe91a02a257b44a578476e824e743947dbd8921285b7eecf5fb0ffc68a2d6fe",
+  "docx_sha256": "08dd0f97fe2752a1d8982453c631536f695a8c2615b25966f7d47e0764af3527",
   "content_source_sha256": "6b426cee6311a3e705002e577550e63e2e26840ec4c4622486ed80c1e1fb56a2",
   "evidence_sha256": {
     "outputs/advanced/metrics.csv": "844ce99baf72ff7559c9def7fb76e5c257e5ecc4870268fcbc9de69c9480de77",
@@ -30,12 +34,5 @@
     "outputs/advanced/seed_ensemble_diagnostics.csv": "ee76c4f2365a3c8eb289121db98e09dbc34f6d7f03b39b3f0a240858a27b9d06",
     "outputs/advanced/independent_verification.json": "f43d11064cd9af53ebb4639001bd34d6d64b89439fce3e18002300465bd9373d",
     "outputs/advanced/saved_model_verification.json": "ea39f795c26a66036fa2c51040694598cd3cc40f3d5f979027e638e73f27f6e1"
-  },
-  "reference_sha256": "c3096628c15ad3fc0b1eddb4ac8f5fee565a9faff726f91cfee60ad6e7dc99ba",
-  "reference_effective_font_sizes_pt": {
-    "body": 12.0,
-    "title": 14.0,
-    "heading_1": 22.0,
-    "heading_2": 16.0
   }
 }

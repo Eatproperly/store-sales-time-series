@@ -439,7 +439,7 @@ if actual_config["device"] == "cuda":
     )
 word_report = ROOT / "Store_Sales_Data_Analysis_Report.docx"
 if word_report.exists():
-    readme += "\n## Word数据分析报告\n[下载Word报告](Store_Sales_Data_Analysis_Report.docx) · [PDF预览](Store_Sales_Data_Analysis_Report.pdf)。按新版House Prices示例连续排版，仅保留1张模型结果表，详细图表在Notebook中。Word中文宋体、英文Times New Roman，正文12磅、主标题14磅、一级标题22磅、二级标题16磅，姓名学号留空。\n\n正文源稿为docs/advanced_word_report.md，指标占位符读取已保存实验。安装requirements-report.txt后运行 `python scripts/build_word_report.py --pdf` 重新生成；PDF还需LibreOffice和Noto CJK字体，替代字体只用于临时渲染副本，Word保留原字体。该命令不重新训练。\n"
+    readme += "\n## Word数据分析报告\n[下载Word报告](Store_Sales_Data_Analysis_Report.docx) · [PDF预览](Store_Sales_Data_Analysis_Report.pdf)。按新版House Prices示例连续排版，仅保留1张模型结果表，详细图表在Notebook中。Word中文宋体、英文Times New Roman，正文12磅、主标题14磅、一级标题22磅、二级标题16磅，姓名学号留空。全部取消加粗；参考Word格式比对记录见outputs/advanced/word_format_comparison.json。\n\n正文源稿为docs/advanced_word_report.md，指标占位符读取已保存实验。安装requirements-report.txt后运行 `python scripts/build_word_report.py --pdf` 重新生成；PDF还需LibreOffice和Noto CJK字体，替代字体只用于临时渲染副本，Word保留原字体。该命令不重新训练。\n"
 (ROOT / "README_ADVANCED.md").write_text(readme)
 rootreadme = ROOT / "README.md"
 base_text = rootreadme.read_text()

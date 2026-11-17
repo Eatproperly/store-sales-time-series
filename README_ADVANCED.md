@@ -28,4 +28,6 @@ python scripts/export_advanced.py
 ## Word数据分析报告
 [下载Word报告](Store_Sales_Data_Analysis_Report.docx) · [PDF预览](Store_Sales_Data_Analysis_Report.pdf)。按新版House Prices示例改为正文为主的连续排版，仅保留1张模型结果表；详细图表在Notebook中。Word中文宋体、英文Times New Roman，正文12磅、主标题14磅、一级标题22磅、二级标题16磅，姓名学号留空。
 
+按最新要求，标题、正文、关键词和表头均取消加粗。已逐项对照参考Word的字体、字号、对齐、行距、段前段后间距和首行缩进；比对记录见outputs/advanced/word_format_comparison.json。正文和实验数字保持原样。
+
 正文源稿为docs/advanced_word_report.md，指标占位符读取已保存实验。修改后安装requirements-report.txt，运行 `python scripts/build_word_report.py --pdf` 重新生成。PDF还需LibreOffice和Noto CJK字体；仅在临时渲染副本中替换本机缺少的字体，交付Word保留宋体/Times New Roman。该命令不重新训练模型。

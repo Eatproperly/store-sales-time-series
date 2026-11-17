@@ -2,15 +2,19 @@
   "pages": 6,
   "tables": 1,
   "embedded_figures": 0,
-  "word_style_matches_updated_sample": true,
+  "reference_layout_matches_with_requested_no_bold_override": true,
+  "reference_document_compared": true,
+  "all_bold_removed": true,
   "pdf_cjk_paragraph_text_preserved": true,
   "no_blank_pages": true,
   "model_training_performed": false,
   "artifacts_sha256": {
-    "Store_Sales_Data_Analysis_Report.docx": "bbe91a02a257b44a578476e824e743947dbd8921285b7eecf5fb0ffc68a2d6fe",
+    "Store_Sales_Data_Analysis_Report.docx": "08dd0f97fe2752a1d8982453c631536f695a8c2615b25966f7d47e0764af3527",
     "Store_Sales_Data_Analysis_Report.md": "d07539f5d1d1da92ab57b1f5d050beed5ca4b56ba6df9fb0831e9f380c9a4664",
-    "Store_Sales_Data_Analysis_Report.pdf": "bf5d923c5a6278ac649c432f83d83293ccf844c27eaeda8027c144715fe0c7bb"
+    "Store_Sales_Data_Analysis_Report.pdf": "867c3198246316a74efb46a85be13cdfb87760a860374a3660c2cfa915bcb6fa"
   },
-  "reference_font_sizes_independently_compared": true,
-  "training_evidence_unchanged": true
+  "text_and_table_values_identical_to_previous_version": true,
+  "no_effective_bold_runs": true,
+  "no_bold_pdf_spans": true,
+  "baseline_unchanged": true
 }

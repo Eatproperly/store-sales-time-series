@@ -1,0 +1,189 @@
+{
+  "reference_filename": "House_Prices_期末大作业3(1).docx",
+  "reference_sha256": "c3096628c15ad3fc0b1eddb4ac8f5fee565a9faff726f91cfee60ad6e7dc99ba",
+  "requested_override": "All bold removed, including headings, title, keywords and table headers",
+  "checks": [
+    {
+      "element": "title",
+      "reference": {
+        "latin_font": "Times New Roman",
+        "cjk_font": "宋体",
+        "size_pt": 14.0,
+        "alignment": 1,
+        "line_spacing": 1.0,
+        "space_before_pt": 0.0,
+        "space_after_pt": 10.0,
+        "first_line_indent_pt": 0.0,
+        "bold": true
+      },
+      "report": {
+        "latin_font": "Times New Roman",
+        "cjk_font": "宋体",
+        "size_pt": 14.0,
+        "alignment": 1,
+        "line_spacing": 1.0,
+        "space_before_pt": 0.0,
+        "space_after_pt": 10.0,
+        "first_line_indent_pt": 0.0,
+        "bold": false
+      },
+      "format_matches_except_requested_no_bold": true
+    },
+    {
+      "element": "abstract_heading",
+      "reference": {
+        "latin_font": "Times New Roman",
+        "cjk_font": "宋体",
+        "size_pt": 22.0,
+        "alignment": 1,
+        "line_spacing": 1.5,
+        "space_before_pt": 5.0,
+        "space_after_pt": 5.0,
+        "first_line_indent_pt": 0.0,
+        "bold": true
+      },
+      "report": {
+        "latin_font": "Times New Roman",
+        "cjk_font": "宋体",
+        "size_pt": 22.0,
+        "alignment": 1,
+        "line_spacing": 1.5,
+        "space_before_pt": 5.0,
+        "space_after_pt": 5.0,
+        "first_line_indent_pt": 0.0,
+        "bold": false
+      },
+      "format_matches_except_requested_no_bold": true
+    },
+    {
+      "element": "body",
+      "reference": {
+        "latin_font": "Times New Roman",
+        "cjk_font": "宋体",
+        "size_pt": 12.0,
+        "alignment": 3,
+        "line_spacing": 1.0,
+        "space_before_pt": 0.0,
+        "space_after_pt": 0.0,
+        "first_line_indent_pt": 0.0,
+        "bold": false
+      },
+      "report": {
+        "latin_font": "Times New Roman",
+        "cjk_font": "宋体",
+        "size_pt": 12.0,
+        "alignment": 3,
+        "line_spacing": 1.0,
+        "space_before_pt": 0.0,
+        "space_after_pt": 0.0,
+        "first_line_indent_pt": 0.0,
+        "bold": false
+      },
+      "format_matches_except_requested_no_bold": true
+    },
+    {
+      "element": "heading_1",
+      "reference": {
+        "latin_font": "Times New Roman",
+        "cjk_font": "宋体",
+        "size_pt": 22.0,
+        "alignment": 0,
+        "line_spacing": 1.5,
+        "space_before_pt": 5.0,
+        "space_after_pt": 5.0,
+        "first_line_indent_pt": 0.0,
+        "bold": true
+      },
+      "report": {
+        "latin_font": "Times New Roman",
+        "cjk_font": "宋体",
+        "size_pt": 22.0,
+        "alignment": 0,
+        "line_spacing": 1.5,
+        "space_before_pt": 5.0,
+        "space_after_pt": 5.0,
+        "first_line_indent_pt": 0.0,
+        "bold": false
+      },
+      "format_matches_except_requested_no_bold": true
+    },
+    {
+      "element": "heading_2",
+      "reference": {
+        "latin_font": "Times New Roman",
+        "cjk_font": "宋体",
+        "size_pt": 16.0,
+        "alignment": 0,
+        "line_spacing": 1.5,
+        "space_before_pt": 5.0,
+        "space_after_pt": 5.0,
+        "first_line_indent_pt": 0.0,
+        "bold": true
+      },
+      "report": {
+        "latin_font": "Times New Roman",
+        "cjk_font": "宋体",
+        "size_pt": 16.0,
+        "alignment": 0,
+        "line_spacing": 1.5,
+        "space_before_pt": 5.0,
+        "space_after_pt": 5.0,
+        "first_line_indent_pt": 0.0,
+        "bold": false
+      },
+      "format_matches_except_requested_no_bold": true
+    },
+    {
+      "element": "table_header",
+      "reference": {
+        "latin_font": "Times New Roman",
+        "cjk_font": "宋体",
+        "size_pt": 12.0,
+        "alignment": 3,
+        "line_spacing": 1.0,
+        "space_before_pt": 0.0,
+        "space_after_pt": 0.0,
+        "first_line_indent_pt": 0.0,
+        "bold": true
+      },
+      "report": {
+        "latin_font": "Times New Roman",
+        "cjk_font": "宋体",
+        "size_pt": 12.0,
+        "alignment": 3,
+        "line_spacing": 1.0,
+        "space_before_pt": 0.0,
+        "space_after_pt": 0.0,
+        "first_line_indent_pt": 0.0,
+        "bold": false
+      },
+      "format_matches_except_requested_no_bold": true
+    },
+    {
+      "element": "table_body",
+      "reference": {
+        "latin_font": "Times New Roman",
+        "cjk_font": "宋体",
+        "size_pt": 12.0,
+        "alignment": 3,
+        "line_spacing": 1.0,
+        "space_before_pt": 0.0,
+        "space_after_pt": 0.0,
+        "first_line_indent_pt": 0.0,
+        "bold": false
+      },
+      "report": {
+        "latin_font": "Times New Roman",
+        "cjk_font": "宋体",
+        "size_pt": 12.0,
+        "alignment": 3,
+        "line_spacing": 1.0,
+        "space_before_pt": 0.0,
+        "space_after_pt": 0.0,
+        "first_line_indent_pt": 0.0,
+        "bold": false
+      },
+      "format_matches_except_requested_no_bold": true
+    }
+  ]
+}
