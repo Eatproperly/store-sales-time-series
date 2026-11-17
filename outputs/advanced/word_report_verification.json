@@ -1,14 +1,16 @@
 {
-  "pdf_rendered_from_docx": true,
-  "pages": 15,
-  "tables": 13,
-  "embedded_figures": 5,
-  "cjk_paragraph_text_preserved": true,
+  "pages": 6,
+  "tables": 1,
+  "embedded_figures": 0,
+  "word_style_matches_updated_sample": true,
+  "pdf_cjk_paragraph_text_preserved": true,
   "no_blank_pages": true,
-  "experiment_evidence_unchanged": true,
+  "model_training_performed": false,
   "artifacts_sha256": {
-    "Store_Sales_Data_Analysis_Report.docx": "60e6ea97161e237bd5829d37da7b5cef0037a6bf293cbc802cac786c56def26a",
-    "Store_Sales_Data_Analysis_Report.pdf": "0d49d5052eee2ffc39791122ca09422c51aeba3f56ed1dc9def8490302fb385c",
-    "Store_Sales_Data_Analysis_Report.md": "79018e61cb93161b96fc75877e356f6eee7a98bb5db8a7bf871f5d37d1dde9b9"
-  }
+    "Store_Sales_Data_Analysis_Report.docx": "bbe91a02a257b44a578476e824e743947dbd8921285b7eecf5fb0ffc68a2d6fe",
+    "Store_Sales_Data_Analysis_Report.md": "d07539f5d1d1da92ab57b1f5d050beed5ca4b56ba6df9fb0831e9f380c9a4664",
+    "Store_Sales_Data_Analysis_Report.pdf": "bf5d923c5a6278ac649c432f83d83293ccf844c27eaeda8027c144715fe0c7bb"
+  },
+  "reference_font_sizes_independently_compared": true,
+  "training_evidence_unchanged": true
 }

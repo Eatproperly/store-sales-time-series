@@ -26,6 +26,6 @@ python scripts/export_advanced.py
 保持Kaggle预装CUDA版PyTorch，使用requirements-advanced-gpu.txt。打开Store_Sales_Advanced_GPU.ipynb，启用GPU并挂载原始数据后运行。该配置width64、全窗口、最多50轮、内层patience6；当前CPU报告不包含这一GPU实测。
 
 ## Word数据分析报告
-[下载Word报告](Store_Sales_Data_Analysis_Report.docx) · [PDF预览](Store_Sales_Data_Analysis_Report.pdf)。按House Prices示例的摘要、八章正文和参考资料组织，含真实图表与结果。封面个人信息留空。
+[下载Word报告](Store_Sales_Data_Analysis_Report.docx) · [PDF预览](Store_Sales_Data_Analysis_Report.pdf)。按新版House Prices示例改为正文为主的连续排版，仅保留1张模型结果表；详细图表在Notebook中。Word中文宋体、英文Times New Roman，正文12磅、主标题14磅、一级标题22磅、二级标题16磅，姓名学号留空。
 
-修改后可安装requirements-report.txt并运行 `python scripts/build_word_report.py --pdf` 重新生成；PDF还需要LibreOffice和Noto CJK字体。该命令读取已保存实验，不重新训练模型。
+正文源稿为docs/advanced_word_report.md，指标占位符读取已保存实验。修改后安装requirements-report.txt，运行 `python scripts/build_word_report.py --pdf` 重新生成。PDF还需LibreOffice和Noto CJK字体；仅在临时渲染副本中替换本机缺少的字体，交付Word保留宋体/Times New Roman。该命令不重新训练模型。
