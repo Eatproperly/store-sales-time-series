@@ -14,6 +14,7 @@
 ## 下载成果
 
 - [完整作业包（ZIP）](https://github.com/Eatproperly/store-sales-time-series/raw/refs/heads/main/Store_Sales_Assignment.zip)
+- [基础版Word数据分析报告](Store_Sales_Baseline_Data_Analysis_Report.docx) · [基础版PDF预览](Store_Sales_Baseline_Data_Analysis_Report.pdf) · [基础版说明](README_BASELINE.md)
 - [Notebook](Store_Sales.ipynb)：代码、中文说明和实际运行输出。
 - [HTML 报告](Store_Sales.html)：下载后用浏览器打开，图表已嵌入。
 - [预测文件](submission.csv)：28,512 行，id、sales 两列。

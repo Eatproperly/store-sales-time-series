@@ -80,11 +80,17 @@ text+=f'''\n## 本次实际运行结果
 readme.write_text(text)
 archive=ROOT/'Store_Sales_Assignment.zip'
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
-    for name in ['Store_Sales.ipynb','Store_Sales.html','submission.csv','README.md','requirements.txt','LICENSE']:
+    for name in ['Store_Sales.ipynb','Store_Sales.html','submission.csv','requirements.txt','LICENSE']:
         z.write(ROOT/name,name)
-    for folder in ['artifacts','scripts']:
+    baseline_readme=ROOT/'README_BASELINE.md'
+    z.write(baseline_readme if baseline_readme.exists() else ROOT/'README.md','README.md')
+    for name in ['README_BASELINE.md','Store_Sales_Baseline_Data_Analysis_Report.docx','Store_Sales_Baseline_Data_Analysis_Report.pdf','Store_Sales_Baseline_Data_Analysis_Report.md','requirements-report.txt']:
+        if (ROOT/name).exists():z.write(ROOT/name,name)
+    for folder in ['artifacts']:
         for f in sorted((ROOT/folder).rglob('*')):
             if f.is_file() and '__pycache__' not in f.parts:z.write(f,f.relative_to(ROOT))
+    for name in ['build_notebook.py','execute_report.py','verify_export.py','build_baseline_word_report.py']:
+        if (ROOT/'scripts'/name).exists():z.write(ROOT/'scripts'/name,'scripts/'+name)
     z.write(ROOT/'data/README.md','data/README.md')
 with zipfile.ZipFile(archive) as z:assert z.testzip() is None
 print(json.dumps({'run':run,'verification':verification,'archive_bytes':archive.stat().st_size},ensure_ascii=False,indent=2))

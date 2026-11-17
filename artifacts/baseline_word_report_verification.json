@@ -1,0 +1,42 @@
+{
+  "report_version": "baseline",
+  "kaggle_public_score": null,
+  "model_training_performed": false,
+  "selected_model": "LightGBM_tuned_3",
+  "development_rmsle": 0.3914388527217838,
+  "holdout_rmsle_independently_recomputed": 0.42610837342755414,
+  "holdout_labels_match_original": true,
+  "submission_id_order_matches": true,
+  "pdf_pages": 14,
+  "tables": 11,
+  "embedded_figures": [
+    "artifacts/figures/01_distribution_trend.png",
+    "artifacts/figures/02_seasonality_stores_families.png",
+    "artifacts/figures/04_model_comparison.png",
+    "artifacts/figures/07_feature_importance.png",
+    "artifacts/figures/05_holdout_errors.png",
+    "artifacts/figures/08_final_forecast.png"
+  ],
+  "pdf_cjk_paragraphs_preserved": true,
+  "evidence_sha256": {
+    "artifacts/selection.json": "e49dc8802894645a00b7b3a1cbf8bc09e84bfb25ad075b84927a956aa0ad6dea",
+    "artifacts/run_summary.json": "2dbbbf98fbb3d90f574194839dfe185738e251a95165c73e141c0a4cf617832f",
+    "artifacts/verification.json": "73e91e88a28ae2d7211eec4c77e4e4735d1d310292f3b8e52eacc92c95ded0a6",
+    "artifacts/baseline_model_comparison.csv": "a819ce07330454dd0ae2333211f2afadee3a1ec62409241f14db4b59afd6193d",
+    "artifacts/development_fold_metrics.csv": "cc9998ba57ff89bcdcd0448bbe203dfc159d03a510149675c249f8dfb37f88ea",
+    "artifacts/development_leaderboard.csv": "67cfc88e42eedf83c73c1152a95bad1dc28c47f5f482e3669c79fa5407e1b3ff",
+    "artifacts/search_fold_metrics.csv": "343d9757873cdbeae6bd000757d602d56537b1f558de670e0d70dadf0b6c83b4",
+    "artifacts/holdout_metrics.csv": "86527a56328e2b1e1a52682ff4ffee289aa5ee8265202727d78c9f61a67e11d8",
+    "artifacts/holdout_predictions.csv": "37ae0f65a8b94bc0d7d47bf93f07bb6b4ed4f6065ef107a3424ae1b021368771",
+    "artifacts/family_errors.csv": "80d5a5e4427e3bca8f66e965f56f153564329b72245f7c6e0ab715f14d5a4bae",
+    "artifacts/feature_importance.csv": "0cb90f301d27bbddcffdb770a552361b57ddcae692d9c08b55ac67507ee31988",
+    "Store_Sales.ipynb": "2335135e0ad9bd1b79ba10254961d7ce02cd607346b414b2360c27d76b673b33",
+    "Store_Sales.html": "cd1108374505f954cbe2eaa098e91e8eab6d6a4b1bc360ed88f52b2103abd9af",
+    "submission.csv": "f5ea6cc90914d08de09ac35f05277d908bfa5950ba5eea0d55fa7f7cabd4b57f"
+  },
+  "report_sha256": {
+    "Store_Sales_Baseline_Data_Analysis_Report.docx": "757daf5a7218ab19da775d7ce08a517c478433d041894b556c24c4df4f706b07",
+    "Store_Sales_Baseline_Data_Analysis_Report.md": "f5cb1df26bab1452b1f645946b1515a0eb56d6e745d397d753bb86fa261ef70c",
+    "Store_Sales_Baseline_Data_Analysis_Report.pdf": "0b1ad337551553917f4cf40c1f04a0f105a612d03328eb2797c1f5fb9f157f60"
+  }
+}
