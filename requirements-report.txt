@@ -1,0 +1,4 @@
+# Install on top of requirements-advanced.txt; PDF rendering also needs LibreOffice
+# and Noto Serif CJK SC / Noto Sans CJK SC fonts.
+python-docx==1.2.0
+PyMuPDF==1.26.6

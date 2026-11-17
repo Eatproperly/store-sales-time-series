@@ -1,0 +1,14 @@
+{
+  "pdf_rendered_from_docx": true,
+  "pages": 15,
+  "tables": 13,
+  "embedded_figures": 5,
+  "cjk_paragraph_text_preserved": true,
+  "no_blank_pages": true,
+  "experiment_evidence_unchanged": true,
+  "artifacts_sha256": {
+    "Store_Sales_Data_Analysis_Report.docx": "60e6ea97161e237bd5829d37da7b5cef0037a6bf293cbc802cac786c56def26a",
+    "Store_Sales_Data_Analysis_Report.pdf": "0d49d5052eee2ffc39791122ca09422c51aeba3f56ed1dc9def8490302fb385c",
+    "Store_Sales_Data_Analysis_Report.md": "79018e61cb93161b96fc75877e356f6eee7a98bb5db8a7bf871f5d37d1dde9b9"
+  }
+}

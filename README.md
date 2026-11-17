@@ -2,6 +2,7 @@
 
 <!-- ADVANCED_RESULTS_START -->
 进阶版：[B3 实际实验报告](README_ADVANCED.md) · [下载进阶作业包](https://github.com/Eatproperly/store-sales-time-series/raw/refs/heads/main/Store_Sales_Advanced_Assignment.zip) · [GPU训练入口](Store_Sales_Advanced_GPU.ipynb)。本轮设备=cpu；Kaggle线上成绩待真实提交。
+[Word数据分析报告](Store_Sales_Data_Analysis_Report.docx) · [PDF预览](Store_Sales_Data_Analysis_Report.pdf)
 <!-- ADVANCED_RESULTS_END -->
 
 

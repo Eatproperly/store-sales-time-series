@@ -24,3 +24,8 @@ python scripts/export_advanced.py
 
 ## 完整GPU实验入口
 保持Kaggle预装CUDA版PyTorch，使用requirements-advanced-gpu.txt。打开Store_Sales_Advanced_GPU.ipynb，启用GPU并挂载原始数据后运行。该配置width64、全窗口、最多50轮、内层patience6；当前CPU报告不包含这一GPU实测。
+
+## Word数据分析报告
+[下载Word报告](Store_Sales_Data_Analysis_Report.docx) · [PDF预览](Store_Sales_Data_Analysis_Report.pdf)。按House Prices示例的摘要、八章正文和参考资料组织，含真实图表与结果。封面个人信息留空。
+
+修改后可安装requirements-report.txt并运行 `python scripts/build_word_report.py --pdf` 重新生成；PDF还需要LibreOffice和Noto CJK字体。该命令读取已保存实验，不重新训练模型。

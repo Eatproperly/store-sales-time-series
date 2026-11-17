@@ -437,6 +437,9 @@ if actual_config["device"] == "cuda":
         "本轮CPU调整：width32、每轮4096随机窗口、基础epoch候选2/8，追加三层网络为8192样本/轮、2/16轮。没有宣称完整GPU计划或Kaggle提交已经完成。",
         f"实际GPU配置：width={actual_config['width']}，每轮窗口数={actual_config['windows_per_epoch']}（0为全量），max_epochs={actual_config['max_epochs']}，inner_mode={actual_config['inner_mode']}。线上分数待真实提交。",
     )
+word_report = ROOT / "Store_Sales_Data_Analysis_Report.docx"
+if word_report.exists():
+    readme += "\n## Word数据分析报告\n[下载Word报告](Store_Sales_Data_Analysis_Report.docx) · [PDF预览](Store_Sales_Data_Analysis_Report.pdf)。按House Prices示例的摘要、八章正文和参考资料组织，含真实图表与结果。封面个人信息留空。\n\n修改后可安装requirements-report.txt并运行 `python scripts/build_word_report.py --pdf` 重新生成；PDF还需要LibreOffice和Noto CJK字体。该命令读取已保存实验，不重新训练模型。\n"
 (ROOT / "README_ADVANCED.md").write_text(readme)
 rootreadme = ROOT / "README.md"
 base_text = rootreadme.read_text()
@@ -448,6 +451,12 @@ if start in base_text:
         + base_text[base_text.index(end) + len(end) :]
     )
 block = f"{start}\n进阶版：[{final_description} 实际实验报告](README_ADVANCED.md) · [下载进阶作业包](https://github.com/Eatproperly/store-sales-time-series/raw/refs/heads/main/Store_Sales_Advanced_Assignment.zip) · [GPU训练入口](Store_Sales_Advanced_GPU.ipynb)。本轮设备={actual_config['device']}；Kaggle线上成绩待真实提交。\n{end}\n"
+if word_report.exists():
+    block = block.replace(
+        end,
+        "[Word数据分析报告](Store_Sales_Data_Analysis_Report.docx) · [PDF预览](Store_Sales_Data_Analysis_Report.pdf)\n"
+        + end,
+    )
 base_text = base_text.replace(
     "# Store Sales：商店销量时间序列预测\n",
     "# Store Sales：商店销量时间序列预测\n\n" + block,
@@ -476,6 +485,18 @@ with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as z:
         "LICENSE",
     ]:
         z.write(ROOT / name, name)
+    for name in [
+        "Store_Sales_Data_Analysis_Report.docx",
+        "Store_Sales_Data_Analysis_Report.pdf",
+        "Store_Sales_Data_Analysis_Report.md",
+        "requirements-report.txt",
+        "scripts/build_word_report.py",
+        "artifacts/data_summary.csv",
+        "artifacts/figures/01_distribution_trend.png",
+        "artifacts/figures/02_seasonality_stores_families.png",
+    ]:
+        if (ROOT / name).exists():
+            z.write(ROOT / name, name)
     for folder in ["src", "configs", "tests", str(OUT.relative_to(ROOT))]:
         for f in (ROOT / folder).rglob("*"):
             if (
